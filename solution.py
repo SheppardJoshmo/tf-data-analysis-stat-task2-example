@@ -10,10 +10,10 @@ def solution(p: float, x: np.array) -> tuple:
     from scipy.stats import chi2
     a = 0
     theta = 0
-    c_1 = chi2.ppf(p/2, len(x) - 1)
-    c_2 = chi2.ppf(1 - p/2, len(x) - 1)
-    for elem in x:
-        theta = theta + (elem - a)**2
-    theta_left = (theta / (34 * c_2))**0.5
-    theta_right = (theta / (34 * c_1))**0.5
+    n = len(x)
+    c_1 = chi2.ppf(p/2, n - 1)
+    c_2 = chi2.ppf(1 - p/2, n - 1)
+    s2 = np.var(x, ddof=1)
+    theta_left = np.sqrt((n - 1) * s2 / c_2)
+    theta_right = np.sqrt((n - 1) * s2 / c_1)
     return theta_left, theta_right
